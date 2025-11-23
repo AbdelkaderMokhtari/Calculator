@@ -5,7 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>AbdouX Scientific Calculator</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
 <style>
   body {
     min-height: 100vh;
@@ -18,41 +19,47 @@
   .calc-button:hover { transform: scale(1.05); transition: transform 0.1s ease; }
   .calc-button:active { transform: scale(0.95); transition: transform 0.1s ease; }
   .shape { position:absolute; border-radius:50%; opacity:0.15; z-index:0; }
-  #history { max-height: 100px; overflow-y: auto; font-size: 0.9rem; margin-top: 0.5rem; color: #555; }
+  #history { max-height: 120px; overflow-y: auto; font-size: 0.9rem; margin-top: 0.5rem; }
 </style>
 </head>
-<body class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 relative overflow-hidden text-gray-900">
 
-<!-- Floating gradient shapes -->
-<div class="shape w-72 h-72 bg-white -top-20 -left-20"></div>
+<body class="bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500 relative overflow-hidden">
+
+<!-- Floating shapes -->
+<div class="shape w-64 h-64 bg-white -top-24 -left-24"></div>
 <div class="shape w-96 h-96 bg-pink-300 -bottom-32 -right-32"></div>
-<div class="shape w-80 h-80 bg-purple-300 -top-16 -right-16"></div>
 
-<div class="bg-white dark:bg-gray-900 dark:text-white rounded-3xl shadow-2xl p-6 w-80 sm:w-96 relative z-10">
-  <h1 class="text-2xl font-bold text-center mb-4 text-gray-800 mb-9 dark:text-white">AbdouX Calculator</h1>
+<div class="bg-white dark:bg-gray-900 dark:text-white rounded-3xl shadow-2xl p-6 w-[90%] sm:w-96 lg:w-[420px] relative z-10">
+
+  <h1 class="text-2xl sm:text-3xl font-bold text-center mb-6">AbdouX Calculator</h1>
 
   <!-- Display -->
-  <input id="display" type="text" class="w-full mb-2 p-4 text-right text-sky-900 text-2xl border rounded-lg shadow-inner focus:outline-none" readonly>
+  <input id="display" 
+         type="text" 
+         class="w-full mb-4 p-4 text-right text-2xl sm:text-3xl bg-gray-100 dark:bg-gray-800 
+                border rounded-lg shadow-inner focus:outline-none"
+         readonly>
 
-  <!-- Buttons grid -->
-  <div class="grid grid-cols-4 gap-3">
+  <!-- Buttons -->
+  <div class="grid grid-cols-4 sm:gap-3 gap-2">
+
     <!-- Row 1 -->
     <button class="calc-button bg-red-400 text-white p-3 rounded-lg font-bold" data-action="allclear">AC</button>
     <button class="calc-button bg-gray-200 dark:bg-gray-700 p-3 rounded-lg font-bold" data-action="clear">C</button>
-    <button class="calc-button bg-gray-200 dark:bg-gray-700 p-3 rounded-lg font-bold" data-action="back">&larr;</button>
-    <button class="calc-button bg-purple-500 text-white p-3 rounded-lg font-bold" data-action="/">&#247;</button>
+    <button class="calc-button bg-gray-200 dark:bg-gray-700 p-3 rounded-lg font-bold" data-action="back">←</button>
+    <button class="calc-button bg-purple-500 text-white p-3 rounded-lg font-bold" data-action="/">÷</button>
 
     <!-- Row 2 -->
     <button class="calc-button bg-gray-100 dark:bg-gray-800 p-3 rounded-lg font-bold" data-number="7">7</button>
     <button class="calc-button bg-gray-100 dark:bg-gray-800 p-3 rounded-lg font-bold" data-number="8">8</button>
     <button class="calc-button bg-gray-100 dark:bg-gray-800 p-3 rounded-lg font-bold" data-number="9">9</button>
-    <button class="calc-button bg-purple-500 text-white p-3 rounded-lg font-bold" data-action="*">&times;</button>
+    <button class="calc-button bg-purple-500 text-white p-3 rounded-lg font-bold" data-action="*">×</button>
 
     <!-- Row 3 -->
     <button class="calc-button bg-gray-100 dark:bg-gray-800 p-3 rounded-lg font-bold" data-number="4">4</button>
     <button class="calc-button bg-gray-100 dark:bg-gray-800 p-3 rounded-lg font-bold" data-number="5">5</button>
     <button class="calc-button bg-gray-100 dark:bg-gray-800 p-3 rounded-lg font-bold" data-number="6">6</button>
-    <button class="calc-button bg-purple-500 text-white p-3 rounded-lg font-bold" data-action="-">-</button>
+    <button class="calc-button bg-purple-500 text-white p-3 rounded-lg font-bold" data-action="-">−</button>
 
     <!-- Row 4 -->
     <button class="calc-button bg-gray-100 dark:bg-gray-800 p-3 rounded-lg font-bold" data-number="1">1</button>
@@ -64,44 +71,40 @@
     <button class="calc-button bg-gray-100 dark:bg-gray-800 p-3 rounded-lg font-bold col-span-2" data-number="0">0</button>
     <button class="calc-button bg-gray-100 dark:bg-gray-800 p-3 rounded-lg font-bold" data-number=".">.</button>
     <button class="calc-button bg-green-500 text-white p-3 rounded-lg font-bold" data-action="=">=</button>
+  </div>
 
-    <!-- Row 6: scientific -->
-    <button class="calc-button bg-yellow-300 p-3 rounded-lg font-bold text-green-900" data-action="sin">sin</button>
-    <button class="calc-button bg-yellow-300 p-3 rounded-lg text-green-900 font-bold" data-action="cos">cos</button>
-    <button class="calc-button bg-yellow-300 text-green-900 p-3 rounded-lg font-bold" data-action="tan">tan</button>
-    <button class="calc-button text-green-900 bg-yellow-300 p-3 rounded-lg font-bold" data-action="sqrt">&radic;</button>
-    <button class="calc-button text-green-900 bg-yellow-300 p-3 rounded-lg font-bold" data-action="pow">x²</button>
-    <button class="calc-button text-green-900 bg-yellow-300 p-3 rounded-lg font-bold" data-action="log">log</button>
-    <button class="calc-button bg-blue-500 p-3 rounded-lg font-bold w-40">AbdouX</button>
+  <!-- Scientific Buttons (Responsive) -->
+  <div class="grid grid-cols-3 sm:grid-cols-6 gap-2 mt-4">
+    <button class="calc-button bg-yellow-300 p-3 rounded-lg font-bold" data-action="sin">sin</button>
+    <button class="calc-button bg-yellow-300 p-3 rounded-lg font-bold" data-action="cos">cos</button>
+    <button class="calc-button bg-yellow-300 p-3 rounded-lg font-bold" data-action="tan">tan</button>
+    <button class="calc-button bg-yellow-300 p-3 rounded-lg font-bold" data-action="sqrt">√</button>
+    <button class="calc-button bg-yellow-300 p-3 rounded-lg font-bold" data-action="pow">x²</button>
+    <button class="calc-button bg-yellow-300 p-3 rounded-lg font-bold" data-action="log">log</button>
   </div>
 
   <!-- History -->
-  <div id="history"></div>
+  <div id="history" class="mt-3 text-gray-700 dark:text-gray-400 text-sm"></div>
 </div>
 
 <script>
 const display = document.getElementById('display');
 const historyEl = document.getElementById('history');
-const themeToggle = document.getElementById('themeToggle');
-
 let currentInput = '';
 let operator = '';
 let previousValue = '';
 
-// Buttons click
-const buttons = document.querySelectorAll('.calc-button');
-buttons.forEach(btn => {
+document.querySelectorAll('.calc-button').forEach(btn => {
   btn.addEventListener('click', () => {
     handleInput(btn.dataset.number, btn.dataset.action);
   });
 });
 
-// Keyboard support
 document.addEventListener('keydown', e => {
   if(e.key >= '0' && e.key <= '9') handleInput(e.key);
   else if(e.key === '.') handleInput('.');
   else if(['+','-','*','/','%'].includes(e.key)) handleInput(undefined, e.key);
-  else if(e.key === 'Enter') handleInput(undefined, '=');
+  else if(e.key === 'Enter') handleInput(undefined,'=');
   else if(e.key === 'Backspace') handleInput(undefined,'back');
   else if(e.key === 'Escape') handleInput(undefined,'allclear');
 });
@@ -115,42 +118,35 @@ function handleInput(number, action){
   if(action){
     switch(action){
       case 'allclear':
-        currentInput = '';
-        operator = '';
-        previousValue = '';
-        display.value = '';
+        currentInput=''; operator=''; previousValue='';
+        display.value='';
         break;
       case 'clear':
-        currentInput = '';
-        display.value = '';
+        currentInput=''; display.value='';
         break;
       case 'back':
-        currentInput = currentInput.slice(0,-1);
-        display.value = display.value.slice(0,-1);
+        currentInput=currentInput.slice(0,-1);
+        display.value=display.value.slice(0,-1);
         break;
+
       case '=':
         try {
-          let result;
-          if(operator){
-            result = eval(`${previousValue}${operator}${currentInput}`);
-          } else {
-            result = eval(currentInput);
-          }
+          let result = operator
+            ? eval(`${previousValue}${operator}${currentInput}`)
+            : eval(currentInput);
+
           historyEl.innerHTML += `<div>${display.value} = ${result}</div>`;
           display.value = result;
           currentInput = result;
-          previousValue = '';
           operator = '';
+          previousValue = '';
         } catch {
           display.value = 'Error';
           currentInput = '';
         }
         break;
-      case '+':
-      case '-':
-      case '*':
-      case '/':
-      case '%':
+
+      case '+': case '-': case '*': case '/': case '%':
         if(currentInput){
           operator = action;
           previousValue = currentInput;
@@ -158,46 +154,13 @@ function handleInput(number, action){
           display.value += action;
         }
         break;
-      case 'pi':
-        currentInput += Math.PI.toFixed(6);
-        display.value += 'π';
-        break;
-      case 'sin':
-        if(currentInput) {
-          display.value = `sin(${currentInput})`;
-          currentInput = Math.sin(Number(currentInput)).toFixed(6);
-        }
-        break;
-      case 'cos':
-        if(currentInput) {
-          display.value = `cos(${currentInput})`;
-          currentInput = Math.cos(Number(currentInput)).toFixed(6);
-        }
-        break;
-      case 'tan':
-        if(currentInput) {
-          display.value = `tan(${currentInput})`;
-          currentInput = Math.tan(Number(currentInput)).toFixed(6);
-        }
-        break;
-      case 'sqrt':
-        if(currentInput) {
-          display.value = `√(${currentInput})`;
-          currentInput = Math.sqrt(Number(currentInput)).toFixed(6);
-        }
-        break;
-      case 'pow':
-        if(currentInput) {
-          display.value = `(${currentInput})²`;
-          currentInput = Math.pow(Number(currentInput),2).toFixed(6);
-        }
-        break;
-      case 'log':
-        if(currentInput) {
-          display.value = `log(${currentInput})`;
-          currentInput = Math.log10(Number(currentInput)).toFixed(6);
-        }
-        break;
+
+      case 'sin': if(currentInput){ display.value=`sin(${currentInput})`; currentInput=Math.sin(Number(currentInput)).toFixed(6); } break;
+      case 'cos': if(currentInput){ display.value=`cos(${currentInput})`; currentInput=Math.cos(Number(currentInput)).toFixed(6); } break;
+      case 'tan': if(currentInput){ display.value=`tan(${currentInput})`; currentInput=Math.tan(Number(currentInput)).toFixed(6); } break;
+      case 'sqrt': if(currentInput){ display.value=`√(${currentInput})`; currentInput=Math.sqrt(Number(currentInput)).toFixed(6); } break;
+      case 'pow': if(currentInput){ display.value=`(${currentInput})²`; currentInput=Math.pow(Number(currentInput),2).toFixed(6); } break;
+      case 'log': if(currentInput){ display.value=`log(${currentInput})`; currentInput=Math.log10(Number(currentInput)).toFixed(6); } break;
     }
   }
 }
